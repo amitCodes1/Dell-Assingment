@@ -4,11 +4,37 @@ html {
   scroll-behavior: smooth;
 }
 
+:root {
+  --bg-primary: #080808;
+  --bg-secondary: #111111;
+  --bg-card: #171717;
+  --text-primary: #ffffff;
+  --text-secondary: #a3a3a3;
+  --text-muted: #737373;
+  --border-color: rgba(255, 255, 255, 0.16);
+  --overlay: rgba(0, 0, 0, 0.35);
+}
+
+html.light {
+  --bg-primary: #f5f7f9;
+  --bg-secondary: #ffffff;
+  --bg-card: #eef1f4;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #6b7280;
+  --border-color: rgba(17, 24, 39, 0.15);
+  --overlay: rgba(255, 255, 255, 0.3);
+}
+
 body {
   margin: 0;
-  background: #000;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-family: Arial, Helvetica, sans-serif;
   overflow-x: hidden;
+  transition:
+    background-color 0.5s ease,
+    color 0.5s ease;
 }
 
 * {
@@ -16,8 +42,8 @@ body {
 }
 
 ::selection {
-  background: white;
-  color: black;
+  background: var(--text-primary);
+  color: var(--bg-primary);
 }
 
 button,
@@ -38,6 +64,48 @@ img {
 
 .premium-button:hover {
   transform: translateY(-3px);
+}
+
+.theme-bg {
+  background-color: var(--bg-primary);
+  transition: background-color 0.5s ease;
+}
+
+.theme-bg-secondary {
+  background-color: var(--bg-secondary);
+  transition: background-color 0.5s ease;
+}
+
+.theme-card {
+  background-color: var(--bg-card);
+  transition:
+    background-color 0.5s ease,
+    border-color 0.5s ease;
+}
+
+.theme-text {
+  color: var(--text-primary);
+  transition: color 0.5s ease;
+}
+
+.theme-text-secondary {
+  color: var(--text-secondary);
+  transition: color 0.5s ease;
+}
+
+.theme-text-muted {
+  color: var(--text-muted);
+  transition: color 0.5s ease;
+}
+
+.theme-border {
+  border-color: var(--border-color);
+  transition: border-color 0.5s ease;
+}
+
+.theme-overlay {
+  background: var(--overlay);
+  transition: background 0.5s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {

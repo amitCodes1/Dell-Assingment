@@ -8,14 +8,22 @@ import XpsSection from "./components/XpsSection";
 import Accessories from "./components/Accessories";
 import TravelHub from "./components/TravelHub";
 import SpecialOffers from "./components/SpecialOffers";
-import "./App.css";
+import { useTheme } from "./context/ThemeContext";
 
 function App() {
+  const { isLight } = useTheme();
+
   return (
-    <>
+    <div
+      className={`min-h-screen transition-all duration-700 ${
+        isLight
+          ? "bg-[#f5f7f9] text-gray-900"
+          : "bg-black text-white"
+      }`}
+    >
       <Navbar />
 
-      <main id='top'>
+      <main id="top">
         <Hero />
         <SecureReliable />
         <AIExperience />
@@ -26,7 +34,7 @@ function App() {
         <TravelHub />
         <SpecialOffers />
       </main>
-    </>
+    </div>
   );
 }
 

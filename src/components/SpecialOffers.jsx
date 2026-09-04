@@ -1,18 +1,23 @@
 import { useState } from "react";
 import useReveal from "./hooks/useReveal";
+import { useTheme } from "../context/ThemeContext";
 
 function SpecialOffers() {
   const [sectionRef, isVisible] = useReveal();
   const [showMore, setShowMore] = useState(false);
+  const { isLight } = useTheme();
 
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-black px-5 py-20 text-white sm:px-8 sm:py-24 md:px-12 md:py-28 lg:px-20 lg:py-32"
+      className={`relative overflow-hidden px-5 py-20 transition-colors duration-700 sm:px-8 sm:py-24 md:px-12 md:py-28 lg:px-20 lg:py-32 ${
+        isLight
+          ? "bg-white text-gray-900"
+          : "bg-black text-white"
+      }`}
     >
       <div className="mx-auto max-w-7xl">
         <div className="grid items-center gap-12 md:grid-cols-2 md:gap-10 lg:gap-20">
-
           <div
             className={`transition-all duration-1000 ${
               isVisible
@@ -20,7 +25,13 @@ function SpecialOffers() {
                 : "translate-y-12 opacity-0"
             }`}
           >
-            <p className="mb-4 text-[10px] uppercase tracking-[3px] text-white/50 sm:text-xs sm:tracking-[5px]">
+            <p
+              className={`mb-4 text-[10px] uppercase tracking-[3px] transition-colors duration-700 sm:text-xs sm:tracking-[5px] ${
+                isLight
+                  ? "text-gray-500"
+                  : "text-white/50"
+              }`}
+            >
               Special Offers
             </p>
 
@@ -30,9 +41,21 @@ function SpecialOffers() {
               enjoy.
             </h2>
 
-            <div className="mt-7 h-px w-16 bg-white/40 sm:mt-9 sm:w-24" />
+            <div
+              className={`mt-7 h-px w-16 transition-colors duration-700 sm:mt-9 sm:w-24 ${
+                isLight
+                  ? "bg-gray-900/40"
+                  : "bg-white/40"
+              }`}
+            />
 
-            <p className="mt-7 max-w-lg text-sm leading-6 text-white/60 sm:mt-9 sm:text-base sm:leading-7 md:text-lg">
+            <p
+              className={`mt-7 max-w-lg text-sm leading-6 transition-colors duration-700 sm:mt-9 sm:text-base sm:leading-7 md:text-lg ${
+                isLight
+                  ? "text-gray-600"
+                  : "text-white/60"
+              }`}
+            >
               Get more from your purchase with exclusive offers on selected
               accessories and premium audio experiences.
             </p>
@@ -42,12 +65,24 @@ function SpecialOffers() {
                 JBL Tune 770NC
               </p>
 
-              <p className="mt-2 text-sm text-white/40 sm:text-base">
+              <p
+                className={`mt-2 text-sm transition-colors duration-700 sm:text-base ${
+                  isLight
+                    ? "text-gray-500"
+                    : "text-white/40"
+                }`}
+              >
                 Wireless Noise Cancelling Headphones
               </p>
 
               <div className="mt-4 flex flex-wrap items-center gap-3">
-                <span className="text-sm text-white/40 line-through sm:text-base">
+                <span
+                  className={`text-sm line-through transition-colors duration-700 sm:text-base ${
+                    isLight
+                      ? "text-gray-400"
+                      : "text-white/40"
+                  }`}
+                >
                   ₹9,999/-*
                 </span>
 
@@ -59,7 +94,11 @@ function SpecialOffers() {
 
             <button
               onClick={() => setShowMore(!showMore)}
-              className="group mt-7 flex items-center gap-4 rounded-full border border-white/50 px-6 py-3 text-xs transition-all duration-500 hover:bg-white hover:text-black sm:mt-9 sm:px-7 sm:py-3.5 sm:text-sm"
+              className={`group mt-7 flex items-center gap-4 rounded-full border px-6 py-3 text-xs transition-all duration-500 sm:mt-9 sm:px-7 sm:py-3.5 sm:text-sm ${
+                isLight
+                  ? "border-gray-900/40 text-gray-900 hover:bg-gray-900 hover:text-white"
+                  : "border-white/50 text-white hover:bg-white hover:text-black"
+              }`}
             >
               <span>{showMore ? "SHOW LESS" : "KNOW MORE"}</span>
 
@@ -82,7 +121,13 @@ function SpecialOffers() {
               }`}
             >
               <div className="overflow-hidden">
-                <p className="max-w-lg text-sm leading-6 text-white/40">
+                <p
+                  className={`max-w-lg text-sm leading-6 transition-colors duration-700 ${
+                    isLight
+                      ? "text-gray-500"
+                      : "text-white/40"
+                  }`}
+                >
                   Enjoy immersive sound with active noise cancellation and
                   a comfortable design made for everyday listening.
                 </p>
@@ -111,12 +156,12 @@ function SpecialOffers() {
                   JBL TUNE 770NC
                 </p>
 
-                <p className="mt-2 text-lg font-light sm:text-2xl">
+                <p className="mt-2 text-lg font-light text-white sm:text-2xl">
                   Premium sound. Exceptional offer.
                 </p>
               </div>
 
-              <div className="absolute right-5 top-5 hidden rounded-full border border-white/30 bg-black/20 px-4 py-2 text-xs backdrop-blur-md transition-all duration-500 group-hover:bg-white group-hover:text-black sm:block sm:right-7 sm:top-7">
+              <div className="absolute right-5 top-5 hidden rounded-full border border-white/30 bg-black/20 px-4 py-2 text-xs text-white backdrop-blur-md transition-all duration-500 group-hover:bg-white group-hover:text-black sm:block sm:right-7 sm:top-7">
                 SPECIAL OFFER
               </div>
             </div>
@@ -124,7 +169,11 @@ function SpecialOffers() {
         </div>
 
         <div
-          className={`mt-14 h-px bg-white/10 transition-all duration-1000 sm:mt-20 ${
+          className={`mt-14 h-px transition-all duration-1000 sm:mt-20 ${
+            isLight
+              ? "bg-gray-900/10"
+              : "bg-white/10"
+          } ${
             isVisible
               ? "w-full opacity-100"
               : "w-0 opacity-100"
@@ -133,10 +182,18 @@ function SpecialOffers() {
 
         <div
           className={`pt-8 text-center transition-all delay-500 duration-1000 sm:pt-10 ${
-            isVisible ? "opacity-100" : "opacity-0"
+            isVisible
+              ? "opacity-100"
+              : "opacity-0"
           }`}
         >
-          <p className="text-[9px] uppercase tracking-[2px] text-white/30 sm:text-xs sm:tracking-[4px]">
+          <p
+            className={`text-[9px] uppercase tracking-[2px] transition-colors duration-700 sm:text-xs sm:tracking-[4px] ${
+              isLight
+                ? "text-gray-400"
+                : "text-white/30"
+            }`}
+          >
             *Terms and conditions apply
           </p>
         </div>

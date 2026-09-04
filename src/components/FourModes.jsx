@@ -1,9 +1,11 @@
 import { useState } from "react";
 import useReveal from "./hooks/useReveal";
+import { useTheme } from "../context/ThemeContext";
 
 function FourModes() {
   const [sectionRef, isVisible] = useReveal();
   const [activeMode, setActiveMode] = useState(null);
+  const { isLight } = useTheme();
 
   const modes = [
     {
@@ -20,7 +22,7 @@ function FourModes() {
       description:
         "Position your device in tent mode for presentations, entertainment and hands-free viewing.",
       image:
-        "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
+        "https://images.unsplash.com/photo-1763162139130-240507e9fad5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Zm9sZGluZyUyMGxhcHRvcHxlbnwwfHwwfHx8MA%3D%3D",
     },
     {
       number: "03",
@@ -28,7 +30,7 @@ function FourModes() {
       description:
         "Stand mode gives you a comfortable angle for watching content and video calls.",
       image:
-        "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=1200&q=85",
+        "https://images.unsplash.com/photo-1709536777126-238639005f7a?q=80&w=1011&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       number: "04",
@@ -44,7 +46,11 @@ function FourModes() {
     <section
       id="modes"
       ref={sectionRef}
-      className="relative overflow-hidden bg-black px-5 py-20 text-white sm:px-8 sm:py-24 md:px-12 md:py-28 lg:px-20 lg:py-32"
+      className={`relative overflow-hidden px-5 py-20 transition-colors duration-700 sm:px-8 sm:py-24 md:px-12 md:py-28 lg:px-20 lg:py-32 ${
+        isLight
+          ? "bg-gray-100 text-gray-900"
+          : "bg-black text-white"
+      }`}
     >
       <div className="mx-auto max-w-7xl">
         <div
@@ -54,7 +60,13 @@ function FourModes() {
               : "translate-y-12 opacity-0"
           }`}
         >
-          <p className="mb-4 text-[10px] uppercase tracking-[3px] text-white/50 sm:text-xs sm:tracking-[5px]">
+          <p
+            className={`mb-4 text-[10px] uppercase tracking-[3px] transition-colors duration-700 sm:text-xs sm:tracking-[5px] ${
+              isLight
+                ? "text-gray-500"
+                : "text-white/50"
+            }`}
+          >
             One device. Four possibilities.
           </p>
 
@@ -75,7 +87,11 @@ function FourModes() {
                 onClick={() =>
                   setActiveMode(isActive ? null : index)
                 }
-                className={`group cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] transition-all duration-700 sm:rounded-3xl ${
+                className={`group cursor-pointer overflow-hidden rounded-2xl border transition-all duration-700 sm:rounded-3xl ${
+                  isLight
+                    ? "border-gray-900/10 bg-white"
+                    : "border-white/10 bg-white/[0.02]"
+                } ${
                   isVisible
                     ? "translate-y-0 opacity-100"
                     : "translate-y-16 opacity-0"
@@ -105,7 +121,11 @@ function FourModes() {
                     </h3>
 
                     <span
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/20 text-lg transition-transform duration-500 ${
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-lg transition-all duration-500 ${
+                        isLight
+                          ? "border-gray-900/20"
+                          : "border-white/20"
+                      } ${
                         isActive ? "rotate-45" : ""
                       }`}
                     >
@@ -121,7 +141,13 @@ function FourModes() {
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <p className="text-sm leading-6 text-white/50">
+                      <p
+                        className={`text-sm leading-6 transition-colors duration-700 ${
+                          isLight
+                            ? "text-gray-500"
+                            : "text-white/50"
+                        }`}
+                      >
                         {mode.description}
                       </p>
                     </div>
@@ -139,9 +165,21 @@ function FourModes() {
               : "translate-y-8 opacity-0"
           }`}
         >
-          <span className="h-px w-12 bg-white/30 sm:w-20" />
+          <span
+            className={`h-px w-12 transition-colors duration-700 sm:w-20 ${
+              isLight
+                ? "bg-gray-900/30"
+                : "bg-white/30"
+            }`}
+          />
 
-          <p className="text-[9px] uppercase tracking-[3px] text-white/40 sm:text-xs sm:tracking-[4px]">
+          <p
+            className={`text-[9px] uppercase tracking-[3px] transition-colors duration-700 sm:text-xs sm:tracking-[4px] ${
+              isLight
+                ? "text-gray-400"
+                : "text-white/40"
+            }`}
+          >
             Flexibility without compromise
           </p>
         </div>
