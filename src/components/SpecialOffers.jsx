@@ -3,82 +3,69 @@ import useReveal from "./hooks/useReveal";
 
 function SpecialOffers() {
   const [sectionRef, isVisible] = useReveal();
-  const [showInfo, setShowInfo] = useState(false);
+  const [showMore, setShowMore] = useState(false);
 
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen overflow-hidden bg-white px-6 py-24 text-black md:px-12 lg:px-20"
+      className="relative overflow-hidden bg-black px-5 py-20 text-white sm:px-8 sm:py-24 md:px-12 md:py-28 lg:px-20 lg:py-32"
     >
-      <div className="mx-auto flex min-h-[80vh] max-w-7xl items-center">
-        <div className="grid w-full items-center gap-14 lg:grid-cols-2">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid items-center gap-12 md:grid-cols-2 md:gap-10 lg:gap-20">
+
           <div
-            className={`transition-all duration-[1200ms] ${
+            className={`transition-all duration-1000 ${
               isVisible
-                ? "translate-x-0 opacity-100"
-                : "-translate-x-20 opacity-0"
+                ? "translate-y-0 opacity-100"
+                : "translate-y-12 opacity-0"
             }`}
           >
-            <p className="text-sm uppercase tracking-[4px] text-black/40">
+            <p className="mb-4 text-[10px] uppercase tracking-[3px] text-white/50 sm:text-xs sm:tracking-[5px]">
               Special Offers
             </p>
 
-            <div className="mt-6 overflow-hidden">
-              <h2
-                className={`text-6xl font-medium leading-[0.9] tracking-tight transition-all duration-[1200ms] md:text-8xl lg:text-[105px] ${
-                  isVisible
-                    ? "translate-y-0 scale-100 opacity-100"
-                    : "translate-y-20 scale-105 opacity-0"
-                }`}
-              >
-                JBL
-                <br />
-                Tune 770NC
-              </h2>
-            </div>
+            <h2 className="max-w-xl text-4xl font-light leading-[0.95] tracking-[-1.5px] sm:text-6xl sm:tracking-[-2px] md:text-7xl lg:text-[88px]">
+              More to
+              <br />
+              enjoy.
+            </h2>
 
-            <p
-              className={`mt-6 max-w-lg text-lg leading-8 text-black/60 transition-all duration-1000 ${
-                isVisible
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-10 opacity-0"
-              }`}
-              style={{ transitionDelay: "300ms" }}
-            >
-              Enjoy premium sound with the JBL Tune 770NC headphones.
+            <div className="mt-7 h-px w-16 bg-white/40 sm:mt-9 sm:w-24" />
+
+            <p className="mt-7 max-w-lg text-sm leading-6 text-white/60 sm:mt-9 sm:text-base sm:leading-7 md:text-lg">
+              Get more from your purchase with exclusive offers on selected
+              accessories and premium audio experiences.
             </p>
 
-            <div
-              className={`mt-8 transition-all duration-1000 ${
-                isVisible
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-10 opacity-0"
-              }`}
-              style={{ transitionDelay: "400ms" }}
-            >
-              <p className="text-lg text-black/40 line-through">
-                ₹9,999/-*
+            <div className="mt-7 sm:mt-9">
+              <p className="text-2xl font-light sm:text-3xl md:text-4xl">
+                JBL Tune 770NC
               </p>
 
-              <p className="mt-1 text-4xl font-medium">
-                ₹1,999/-*
+              <p className="mt-2 text-sm text-white/40 sm:text-base">
+                Wireless Noise Cancelling Headphones
               </p>
+
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                <span className="text-sm text-white/40 line-through sm:text-base">
+                  ₹9,999/-*
+                </span>
+
+                <span className="text-xl font-light sm:text-2xl">
+                  ₹1,999/-*
+                </span>
+              </div>
             </div>
 
             <button
-              onClick={() => setShowInfo(!showInfo)}
-              className={`group mt-8 flex items-center gap-4 rounded-full bg-black px-7 py-3 text-sm text-white transition-all duration-500 hover:-translate-y-1 hover:bg-neutral-800 ${
-                isVisible
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-10 opacity-0"
-              }`}
-              style={{ transitionDelay: "500ms" }}
+              onClick={() => setShowMore(!showMore)}
+              className="group mt-7 flex items-center gap-4 rounded-full border border-white/50 px-6 py-3 text-xs transition-all duration-500 hover:bg-white hover:text-black sm:mt-9 sm:px-7 sm:py-3.5 sm:text-sm"
             >
-              <span>{showInfo ? "CLOSE" : "KNOW MORE"}</span>
+              <span>{showMore ? "SHOW LESS" : "KNOW MORE"}</span>
 
               <span
                 className={`text-lg transition-transform duration-500 ${
-                  showInfo
+                  showMore
                     ? "rotate-45"
                     : "group-hover:translate-x-1"
                 }`}
@@ -88,65 +75,72 @@ function SpecialOffers() {
             </button>
 
             <div
-              className={`grid transition-all duration-700 ${
-                showInfo
-                  ? "mt-8 grid-rows-[1fr] opacity-100"
+              className={`grid transition-all duration-500 ${
+                showMore
+                  ? "mt-6 grid-rows-[1fr] opacity-100"
                   : "grid-rows-[0fr] opacity-0"
               }`}
             >
               <div className="overflow-hidden">
-                <div className="max-w-lg border-l border-black/20 pl-6">
-                  <p className="text-lg leading-8 text-black/60">
-                    The JBL Tune 770NC headphones are included as a special
-                    offer, providing a premium audio experience for your
-                    everyday entertainment.
-                  </p>
-
-                  <p className="mt-5 text-sm uppercase tracking-[3px] text-black/40">
-                    Special Offer
-                  </p>
-
-                  <p className="mt-3 text-base leading-7 text-black/50">
-                    Headphones worth ₹9,999/-* available at ₹1,999/-* as
-                    shown in the offer.
-                  </p>
-                </div>
+                <p className="max-w-lg text-sm leading-6 text-white/40">
+                  Enjoy immersive sound with active noise cancellation and
+                  a comfortable design made for everyday listening.
+                </p>
               </div>
             </div>
           </div>
 
           <div
-            className={`group relative overflow-hidden rounded-[32px] bg-neutral-100 transition-all duration-[1400ms] ${
+            className={`transition-all delay-200 duration-1000 ${
               isVisible
-                ? "translate-x-0 scale-100 opacity-100"
-                : "translate-x-20 scale-90 opacity-0"
+                ? "translate-y-0 opacity-100"
+                : "translate-y-16 opacity-0"
             }`}
-            style={{ transitionDelay: "200ms" }}
           >
-            <img
-              src="/src/assets/images/jbl.jpg"
-              alt="JBL Tune 770NC Headphones"
-              className="h-full w-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-110"
-            />
+            <div className="group relative aspect-[4/3] overflow-hidden rounded-2xl sm:rounded-3xl">
+              <img
+                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1600&q=85"
+                alt="JBL headphones"
+                className="h-full w-full object-cover object-center transition-transform duration-1000 ease-out md:group-hover:scale-105"
+              />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
 
-            <div className="absolute bottom-7 left-7 translate-y-5 opacity-0 transition-all duration-700 group-hover:translate-y-0 group-hover:opacity-100">
-              <p className="text-xs uppercase tracking-[4px] text-white">
-                Special Offer
-              </p>
+              <div className="absolute bottom-5 left-5 right-5 sm:bottom-7 sm:left-7 sm:right-7">
+                <p className="text-[9px] uppercase tracking-[3px] text-white/60 sm:text-xs sm:tracking-[4px]">
+                  JBL TUNE 770NC
+                </p>
+
+                <p className="mt-2 text-lg font-light sm:text-2xl">
+                  Premium sound. Exceptional offer.
+                </p>
+              </div>
+
+              <div className="absolute right-5 top-5 hidden rounded-full border border-white/30 bg-black/20 px-4 py-2 text-xs backdrop-blur-md transition-all duration-500 group-hover:bg-white group-hover:text-black sm:block sm:right-7 sm:top-7">
+                SPECIAL OFFER
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div
-        className={`absolute bottom-10 left-6 h-px bg-black/20 transition-all duration-[1200ms] md:left-12 lg:left-20 ${
-          isVisible
-            ? "w-24 opacity-100"
-            : "w-0 opacity-0"
-        }`}
-      />
+        <div
+          className={`mt-14 h-px bg-white/10 transition-all duration-1000 sm:mt-20 ${
+            isVisible
+              ? "w-full opacity-100"
+              : "w-0 opacity-100"
+          }`}
+        />
+
+        <div
+          className={`pt-8 text-center transition-all delay-500 duration-1000 sm:pt-10 ${
+            isVisible ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <p className="text-[9px] uppercase tracking-[2px] text-white/30 sm:text-xs sm:tracking-[4px]">
+            *Terms and conditions apply
+          </p>
+        </div>
+      </div>
     </section>
   );
 }

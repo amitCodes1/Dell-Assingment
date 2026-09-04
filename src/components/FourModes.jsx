@@ -9,151 +9,141 @@ function FourModes() {
     {
       number: "01",
       title: "Laptop",
-      image: "/src/assets/images/laptopformodes.jpg",
       description:
-        "Use the classic laptop mode for everyday work, browsing, productivity and multitasking.",
+        "Traditional laptop mode for everyday work, browsing and productivity.",
+      image:
+        "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
     },
     {
       number: "02",
-      title: "Tablet",
-      image: "/src/assets/images/tablet.jpg",
+      title: "Tent",
       description:
-        "Fold the display back into tablet mode for a more natural way to browse, read, create and enjoy content.",
+        "Position your device in tent mode for presentations, entertainment and hands-free viewing.",
+      image:
+        "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
     },
     {
       number: "03",
-      title: "Tent",
-      image: "/src/assets/images/tent2.png",
+      title: "Stand",
       description:
-        "Tent mode is ideal for watching videos, presentations and hands-free entertainment.",
+        "Stand mode gives you a comfortable angle for watching content and video calls.",
+      image:
+        "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=1200&q=85",
     },
     {
       number: "04",
-      title: "Stand",
-      image: "/src/assets/images/stand.jpg",
+      title: "Tablet",
       description:
-        "Stand mode keeps the display elevated and gives you a comfortable viewing experience for content and presentations.",
+        "Fold it all the way back and enjoy a flexible touchscreen tablet experience.",
+      image:
+        "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=1200&q=85",
     },
   ];
 
-  const handleModeClick = (title) => {
-    setActiveMode(activeMode === title ? null : title);
-  };
-
   return (
     <section
-      ref={sectionRef}
       id="modes"
-      className="min-h-screen bg-black px-6 py-24 text-white md:px-12 lg:px-20"
+      ref={sectionRef}
+      className="relative overflow-hidden bg-black px-5 py-20 text-white sm:px-8 sm:py-24 md:px-12 md:py-28 lg:px-20 lg:py-32"
     >
       <div className="mx-auto max-w-7xl">
         <div
-          className={`mb-16 transition-all duration-[1200ms] ${
+          className={`mb-12 transition-all duration-1000 sm:mb-16 md:mb-20 ${
             isVisible
               ? "translate-y-0 opacity-100"
-              : "translate-y-16 opacity-0"
+              : "translate-y-12 opacity-0"
           }`}
         >
-          <p className="mb-5 text-sm uppercase tracking-[4px] text-white/50">
-            Designed to adapt
+          <p className="mb-4 text-[10px] uppercase tracking-[3px] text-white/50 sm:text-xs sm:tracking-[5px]">
+            One device. Four possibilities.
           </p>
 
-          <h2 className="text-6xl font-medium leading-[0.95] tracking-tight md:text-8xl lg:text-[110px]">
+          <h2 className="max-w-4xl text-4xl font-light leading-[0.95] tracking-[-1.5px] sm:text-6xl sm:tracking-[-2px] md:text-7xl lg:text-[92px]">
             Powered by
             <br />
-            four modes
+            four modes.
           </h2>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {modes.map((mode, index) => {
-            const isActive = activeMode === mode.title;
+            const isActive = activeMode === index;
 
             return (
               <div
-                key={mode.title}
-                className={`group relative overflow-hidden rounded-[32px] transition-all duration-[1200ms] ${
+                key={mode.number}
+                onClick={() =>
+                  setActiveMode(isActive ? null : index)
+                }
+                className={`group cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] transition-all duration-700 sm:rounded-3xl ${
                   isVisible
                     ? "translate-y-0 opacity-100"
-                    : "translate-y-20 opacity-0"
+                    : "translate-y-16 opacity-0"
                 }`}
                 style={{
-                  transitionDelay: `${index * 150}ms`,
+                  transitionDelay: `${index * 120}ms`,
                 }}
               >
-                <img
-                  src={mode.image}
-                  alt={`Dell 2-in-1 ${mode.title} mode`}
-                  className={`h-[500px] w-full object-cover transition-transform duration-[1500ms] ease-out ${
-                    isActive
-                      ? "scale-110"
-                      : "scale-100 group-hover:scale-110"
-                  }`}
-                />
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img
+                    src={mode.image}
+                    alt={mode.title}
+                    className="h-full w-full object-cover object-center transition-transform duration-1000 ease-out md:group-hover:scale-105"
+                  />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
 
-                <div
-                  className={`absolute inset-x-0 bottom-0 p-8 transition-all duration-700 ${
-                    isActive ? "pb-8" : "group-hover:pb-10"
-                  }`}
-                >
-                  <div className="flex items-end justify-between gap-5">
-                    <div>
-                      <span className="text-sm text-white/50">
-                        {mode.number}
-                      </span>
+                  <div className="absolute left-4 top-4 rounded-full border border-white/20 bg-black/30 px-3 py-1.5 text-[9px] tracking-[2px] text-white/70 backdrop-blur-md sm:left-5 sm:top-5">
+                    {mode.number}
+                  </div>
+                </div>
 
-                      <h3 className="mt-2 text-5xl font-medium tracking-tight transition-transform duration-500 group-hover:-translate-y-1">
-                        {mode.title}
-                      </h3>
-                    </div>
+                <div className="p-5 sm:p-6">
+                  <div className="flex items-center justify-between gap-3">
+                    <h3 className="text-xl font-light sm:text-2xl">
+                      {mode.title}
+                    </h3>
 
-                    <button
-                      onClick={() => handleModeClick(mode.title)}
-                      className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/40 transition-all duration-500 hover:scale-110 hover:bg-white hover:text-black"
+                    <span
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/20 text-lg transition-transform duration-500 ${
+                        isActive ? "rotate-45" : ""
+                      }`}
                     >
-                      <span
-                        className={`text-2xl transition-transform duration-500 ${
-                          isActive ? "rotate-45" : ""
-                        }`}
-                      >
-                        +
-                      </span>
-                    </button>
+                      +
+                    </span>
                   </div>
 
                   <div
-                    className={`grid transition-all duration-700 ${
+                    className={`grid transition-all duration-500 ${
                       isActive
-                        ? "mt-6 grid-rows-[1fr] opacity-100"
+                        ? "mt-4 grid-rows-[1fr] opacity-100"
                         : "grid-rows-[0fr] opacity-0"
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <div className="border-t border-white/20 pt-5">
-                        <p className="max-w-xl text-base leading-7 text-white/65">
-                          {mode.description}
-                        </p>
-
-                        <p className="mt-4 text-xs uppercase tracking-[3px] text-white/40">
-                          Dell 2-in-1 Experience
-                        </p>
-                      </div>
+                      <p className="text-sm leading-6 text-white/50">
+                        {mode.description}
+                      </p>
                     </div>
                   </div>
                 </div>
-
-                <div
-                  className={`pointer-events-none absolute inset-0 border border-white/0 transition-all duration-700 ${
-                    isActive
-                      ? "border-white/30"
-                      : "group-hover:border-white/20"
-                  }`}
-                />
               </div>
             );
           })}
+        </div>
+
+        <div
+          className={`mt-12 flex items-center gap-4 transition-all delay-500 duration-1000 sm:mt-16 ${
+            isVisible
+              ? "translate-y-0 opacity-100"
+              : "translate-y-8 opacity-0"
+          }`}
+        >
+          <span className="h-px w-12 bg-white/30 sm:w-20" />
+
+          <p className="text-[9px] uppercase tracking-[3px] text-white/40 sm:text-xs sm:tracking-[4px]">
+            Flexibility without compromise
+          </p>
         </div>
       </div>
     </section>

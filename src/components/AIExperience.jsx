@@ -3,141 +3,152 @@ import useReveal from "./hooks/useReveal";
 
 function AIExperience() {
   const [sectionRef, isVisible] = useReveal();
-  const [showInfo, setShowInfo] = useState(false);
+  const [showAI, setShowAI] = useState(false);
 
   return (
     <section
-      ref={sectionRef}
       id="ai"
-      className="relative min-h-screen overflow-hidden bg-white px-6 py-24 text-black md:px-12 lg:px-20"
+      ref={sectionRef}
+      className="relative overflow-hidden bg-black px-5 py-20 text-white sm:px-8 sm:py-24 md:px-12 md:py-28 lg:px-20 lg:py-32"
     >
-      <div className="mx-auto flex min-h-[80vh] max-w-7xl items-center">
-        <div className="grid w-full items-center gap-16 lg:grid-cols-2">
-          <div>
-            <div
-              className={`overflow-hidden transition-all duration-1000 ${
-                isVisible
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-10 opacity-0"
-              }`}
-            >
-              <p className="text-sm uppercase tracking-[4px] text-black/50">
-                New AI experiences
-              </p>
-            </div>
-
-            <div className="mt-6 overflow-hidden">
-            <h2
-  className={`text-5xl font-light leading-[0.95] tracking-[-2px] transition-all duration-1000 sm:text-6xl md:text-8xl ${
-    isVisible
-      ? "translate-y-0 opacity-100"
-      : "translate-y-16 opacity-0"
-  }`}
->
-  Smarter
-  <br />
-  performance.
-</h2>
-            </div>
-
-            <p
-              className={`mt-8 max-w-xl text-lg leading-8 text-black/60 transition-all duration-1000 ${
-                isVisible
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-10 opacity-0"
-              }`}
-              style={{ transitionDelay: "300ms" }}
-            >
-              Experience powerful performance designed for the newest
-              generation of AI experiences.
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-12 flex flex-col gap-5 sm:mb-16 md:mb-20 md:flex-row md:items-end md:justify-between">
+          <div
+            className={`transition-all duration-1000 ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-12 opacity-0"
+            }`}
+          >
+            <p className="mb-4 text-[10px] uppercase tracking-[3px] text-white/50 sm:text-xs sm:tracking-[5px]">
+              Intelligent Performance
             </p>
 
-           <div
-  className={`mt-8 transition-all delay-400 duration-1000 ${
-    isVisible
-      ? "translate-y-0 opacity-100"
-      : "translate-y-10 opacity-0"
-  }`}
->
-              <button
-                onClick={() => setShowInfo(!showInfo)}
-                className="group mt-10 flex items-center gap-4 rounded-full bg-black px-7 py-3.5 text-sm text-white transition-all duration-300 hover:-translate-y-1 hover:bg-neutral-800"
-              >
-                <span>{showInfo ? "CLOSE" : "EXPLORE AI"}</span>
-
-                <span
-                  className={`text-lg transition-transform duration-500 ${
-                    showInfo
-                      ? "rotate-45"
-                      : "group-hover:translate-x-2"
-                  }`}
-                >
-                  +
-                </span>
-              </button>
-            </div>
-
-            <div
-              className={`grid transition-all duration-700 ${
-                showInfo
-                  ? "mt-8 grid-rows-[1fr] opacity-100"
-                  : "grid-rows-[0fr] opacity-0"
-              }`}
-            >
-              <div className="overflow-hidden">
-                <div className="max-w-xl border-l border-black/20 pl-6">
-                  <p className="text-lg leading-8 text-black/60">
-                    Sleek 14-inch 2-in-1 with on-device Copilot+ powered by
-                    Intel® Core™ Ultra processors, with stunning performance
-                    that powers the newest AI experiences.
-                  </p>
-
-                  <p className="mt-5 text-sm uppercase tracking-[3px] text-black/40">
-                    On-device AI
-                  </p>
-
-                  <p className="mt-3 text-base leading-7 text-black/50">
-                    Experience smarter performance designed to support the
-                    newest AI experiences while keeping everyday tasks fast
-                    and responsive.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <h2 className="max-w-4xl text-4xl font-light leading-[0.95] tracking-[-1.5px] sm:text-6xl sm:tracking-[-2px] md:text-7xl lg:text-[92px]">
+              Smarter
+              <br />
+              performance.
+            </h2>
           </div>
 
-          <div
-            className={`transition-all duration-[1400ms] ${
+          <p
+            className={`max-w-md text-sm leading-6 text-white/60 transition-all delay-200 duration-1000 sm:text-base sm:leading-7 md:pb-2 ${
               isVisible
-                ? "translate-x-0 scale-100 opacity-100"
-                : "translate-x-20 scale-90 opacity-0"
+                ? "translate-y-0 opacity-100"
+                : "translate-y-10 opacity-0"
             }`}
-            style={{ transitionDelay: "200ms" }}
           >
-            <div className="group relative aspect-square overflow-hidden rounded-[32px] bg-neutral-100">
-              <img
-                src="/src/assets/images/this2.webp"
-                alt="Dell Inspiron Laptop"
-                className="h-full w-full object-cover transition-transform duration-[1500ms] ease-out group-hover:scale-110"
-              />
+            Experience powerful performance with intelligent technology
+            designed to adapt to the way you work, create and connect.
+          </p>
+        </div>
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+        <div
+          className={`relative overflow-hidden rounded-2xl transition-all delay-300 duration-1000 sm:rounded-3xl ${
+            isVisible
+              ? "translate-y-0 opacity-100"
+              : "translate-y-16 opacity-0"
+          }`}
+        >
+          <div className="group relative aspect-[4/3] overflow-hidden sm:aspect-[16/9]">
+            <img
+              src="https://images.unsplash.com/photo-1593642702749-b7d2a804fbcf?auto=format&fit=crop&w=1800&q=85"
+              alt="Laptop technology"
+              className="h-full w-full object-cover object-center transition-transform duration-1000 ease-out md:group-hover:scale-105"
+            />
 
-              <div className="absolute bottom-6 left-6 translate-y-5 opacity-0 transition-all duration-700 group-hover:translate-y-0 group-hover:opacity-100">
-                <p className="text-xs uppercase tracking-[3px] text-white">
-                  On-device AI
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+            <div className="absolute bottom-5 left-5 right-5 sm:bottom-8 sm:left-8 sm:right-8 md:bottom-10 md:left-10">
+              <p className="text-[9px] uppercase tracking-[3px] text-white/60 sm:text-xs sm:tracking-[5px]">
+                On-device intelligence
+              </p>
+
+              <h3 className="mt-2 max-w-2xl text-2xl font-light sm:text-3xl md:text-5xl">
+                AI that works with you.
+              </h3>
+            </div>
+
+            <div className="absolute right-5 top-5 hidden rounded-full border border-white/30 bg-black/20 px-4 py-2 text-xs backdrop-blur-md transition-all duration-500 group-hover:bg-white group-hover:text-black sm:block md:right-8 md:top-8">
+              AI EXPERIENCE
+            </div>
+          </div>
+        </div>
+
+        <div
+          className={`mt-8 grid transition-all duration-700 ${
+            showAI
+              ? "grid-rows-[1fr] opacity-100"
+              : "grid-rows-[0fr] opacity-0"
+          }`}
+        >
+          <div className="overflow-hidden">
+            <div className="grid gap-4 pb-2 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6">
+                <p className="text-xs uppercase tracking-[2px] text-white/40">
+                  01
+                </p>
+                <h4 className="mt-4 text-xl font-light">
+                  Intelligent workflows
+                </h4>
+                <p className="mt-3 text-sm leading-6 text-white/50">
+                  Get more done with AI-powered experiences that simplify
+                  everyday tasks.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6">
+                <p className="text-xs uppercase tracking-[2px] text-white/40">
+                  02
+                </p>
+                <h4 className="mt-4 text-xl font-light">
+                  Powerful performance
+                </h4>
+                <p className="mt-3 text-sm leading-6 text-white/50">
+                  Built to handle demanding applications while keeping your
+                  workflow smooth.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6">
+                <p className="text-xs uppercase tracking-[2px] text-white/40">
+                  03
+                </p>
+                <h4 className="mt-4 text-xl font-light">
+                  Smarter experiences
+                </h4>
+                <p className="mt-3 text-sm leading-6 text-white/50">
+                  AI capabilities help you create, communicate and work more
+                  efficiently.
                 </p>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div
-        className={`absolute bottom-10 left-6 h-px bg-black/20 transition-all duration-[1500ms] md:left-12 lg:left-20 ${
-          isVisible ? "w-24 opacity-100" : "w-0 opacity-0"
-        }`}
-      />
+        <div className="mt-8 flex justify-start sm:mt-10">
+          <button
+            onClick={() => setShowAI(!showAI)}
+            className="group flex items-center gap-4 rounded-full border border-white/40 px-6 py-3 text-xs transition-all duration-500 hover:bg-white hover:text-black sm:px-7 sm:py-3.5 sm:text-sm"
+          >
+            <span>{showAI ? "SHOW LESS" : "EXPLORE AI"}</span>
+
+            <span
+              className={`text-lg transition-transform duration-500 ${
+                showAI ? "rotate-45" : "group-hover:translate-x-1"
+              }`}
+            >
+              +
+            </span>
+          </button>
+        </div>
+
+        <div
+          className={`mt-14 h-px bg-white/10 transition-all duration-1000 sm:mt-20 ${
+            isVisible ? "w-full opacity-100" : "w-0 opacity-0"
+          }`}
+        />
+      </div>
     </section>
   );
 }
