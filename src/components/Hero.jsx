@@ -10,12 +10,28 @@ function Hero() {
     y: 0,
   });
 
-  useEffect(() => {
-    const handleMouseMove = (event) => {
-      if (window.innerWidth < 768) {
-        return;
-      }
+  const [isDesktop, setIsDesktop] = useState(false);
 
+  useEffect(() => {
+    const checkScreen = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+
+    checkScreen();
+
+    window.addEventListener("resize", checkScreen);
+
+    return () => {
+      window.removeEventListener("resize", checkScreen);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktop) {
+      return;
+    }
+
+    const handleMouseMove = (event) => {
       const x = (event.clientX / window.innerWidth - 0.5) * 2;
       const y = (event.clientY / window.innerHeight - 0.5) * 2;
 
@@ -28,21 +44,19 @@ function Hero() {
     window.addEventListener("mousemove", handleMouseMove);
 
     return () => {
-      window("mousemove", handleMouseMove);
+      window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, []);
+  }, [isDesktop]);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!heroRef.current) {
+      if (!heroRef.current || !isDesktop) {
         return;
       }
 
-      const scrollAmount = window.innerWidth < 768 ? 0.05 : 0.12;
-
       heroRef.current.style.setProperty(
         "--hero-scroll",
-        `${window.scrollY * scrollAmount}px`
+        `${window.scrollY * 0.12}px`
       );
     };
 
@@ -51,7 +65,7 @@ function Hero() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [isDesktop]);
 
   return (
     <section
@@ -65,14 +79,20 @@ function Hero() {
         <img
           src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1800&q=85"
           alt="Dell laptop"
-          style={{
-            transform: `translate3d(
-              ${mousePosition.x * 6}px,
-              calc(${mousePosition.y * 6}px + var(--hero-scroll, 0px)),
-              0
-            ) scale(1.05)`,
-          }}
-          className={`absolute inset-0 h-full w-full object-cover object-[center_75%] transition-opacity duration-[1500ms] ease-out sm:object-center ${
+          style={
+            isDesktop
+              ? {
+                  transform: `translate3d(
+                    ${mousePosition.x * 6}px,
+                    calc(${mousePosition.y * 6}px + var(--hero-scroll, 0px)),
+                    0
+                  ) scale(1.05)`,
+                }
+              : {
+                  transform: "none",
+                }
+          }
+          className={`absolute inset-0 h-full w-full object-cover object-[center_75%] transition-opacity duration-[1500ms] ease-out md:object-center ${
             isVisible ? "opacity-100" : "opacity-0"
           }`}
         />
