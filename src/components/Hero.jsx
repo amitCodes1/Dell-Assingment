@@ -5,7 +5,6 @@ import { useTheme } from "../context/ThemeContext";
 function Hero() {
   const [sectionRef, isVisible] = useReveal();
   const heroRef = useRef(null);
-
   const { isLight } = useTheme();
 
   const [mousePosition, setMousePosition] = useState({
@@ -13,6 +12,7 @@ function Hero() {
     y: 0,
   });
 
+  const [scrollY, setScrollY] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
@@ -34,41 +34,76 @@ function Hero() {
       return;
     }
 
-    const handleMouseMove = (event) => {
-      const x = (event.clientX / window.innerWidth - 0.5) * 2;
-      const y = (event.clientY / window.innerHeight - 0.5) * 2;
+    let animationFrame;
 
-      setMousePosition({
-        x,
-        y,
+    const handleMouseMove = (event) => {
+      cancelAnimationFrame(animationFrame);
+
+      animationFrame = requestAnimationFrame(() => {
+        const x =
+          (event.clientX / window.innerWidth - 0.5) * 2;
+
+        const y =
+          (event.clientY / window.innerHeight - 0.5) * 2;
+
+        setMousePosition({ x, y });
       });
     };
 
     window.addEventListener("mousemove", handleMouseMove);
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener(
+        "mousemove",
+        handleMouseMove
+      );
+
+      cancelAnimationFrame(animationFrame);
     };
   }, [isDesktop]);
 
   useEffect(() => {
+    if (!isDesktop) {
+      return;
+    }
+
+    let animationFrame;
+
     const handleScroll = () => {
-      if (!heroRef.current || !isDesktop) {
+      if (animationFrame) {
         return;
       }
 
-      heroRef.current.style.setProperty(
-        "--hero-scroll",
-        `${window.scrollY * 0.12}px`
-      );
+      animationFrame = requestAnimationFrame(() => {
+        setScrollY(window.scrollY);
+        animationFrame = null;
+      });
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
     };
   }, [isDesktop]);
+
+  const mouseX = isDesktop
+    ? mousePosition.x * 5
+    : 0;
+
+  const mouseY = isDesktop
+    ? mousePosition.y * 5
+    : 0;
+
+  const videoY = isDesktop
+    ? scrollY * 0.08
+    : 0;
 
   return (
     <section
@@ -82,39 +117,51 @@ function Hero() {
           : "bg-black text-white"
       }`}
     >
-      <div className="absolute inset-0">
-        <img
-          src="https://images.unsplash.com/photo-1542393545-10f5cde2c810?q=80&w=465&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="Dell laptop"
+      <div className="absolute inset-0 overflow-hidden">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
           style={
             isDesktop
               ? {
                   transform: `translate3d(
-                    ${mousePosition.x * 6}px,
-                    calc(${mousePosition.y * 6}px + var(--hero-scroll, 0px)),
+                    ${mouseX}px,
+                    ${mouseY + videoY}px,
                     0
                   ) scale(1.05)`,
                 }
               : {
-                  transform: "none",
+                  transform: "scale(1.01)",
                 }
           }
-          className={`absolute inset-0 h-full w-full object-cover object-[center_75%] transition-all duration-[1500ms] ease-out md:object-center ${
-            isVisible ? "opacity-100" : "opacity-0"
+          className={`absolute inset-0 h-full w-full object-cover object-center transition-all duration-[1500ms] ease-out ${
+            isVisible
+              ? "opacity-100"
+              : "scale-105 opacity-0"
           }`}
-        />
+        >
+          <source
+            src="public/videos/video2.mp4"
+            type="video/mp4"
+          />
+        </video>
 
         <div
           className={`absolute inset-0 transition-all duration-700 ${
             isLight
-              ? "bg-gradient-to-b from-white/70 via-white/35 to-white/70 md:bg-gradient-to-r md:from-white/90 md:via-white/40 md:to-transparent"
-              : "bg-gradient-to-b from-black/55 via-black/45 to-black/75 md:bg-gradient-to-r md:from-black/80 md:via-black/35 md:to-transparent"
+              ? "bg-gradient-to-b from-white/75 via-white/35 to-white/75 md:bg-gradient-to-r md:from-white/90 md:via-white/40 md:to-transparent"
+              : "bg-gradient-to-b from-black/60 via-black/40 to-black/80 md:bg-gradient-to-r md:from-black/85 md:via-black/40 md:to-transparent"
           }`}
         />
 
         <div
           className={`absolute inset-0 transition-colors duration-700 ${
-            isLight ? "bg-white/5" : "bg-black/10"
+            isLight
+              ? "bg-white/5"
+              : "bg-black/10"
           }`}
         />
       </div>
@@ -140,25 +187,31 @@ function Hero() {
               </span>
 
               <span
-                className={`h-px w-10 transition-colors duration-700 sm:w-20 ${
+                className={`h-px w-10 transition-all duration-1000 sm:w-20 ${
                   isLight
                     ? "bg-gray-700/50"
                     : "bg-white/60"
+                } ${
+                  isVisible
+                    ? "scale-x-100 opacity-100"
+                    : "scale-x-0 opacity-0"
                 }`}
               />
             </div>
 
-            <h1
-              className={`max-w-3xl text-[40px] font-light leading-[0.95] tracking-[-1.8px] transition-all delay-150 duration-1000 sm:text-6xl sm:tracking-[-3px] md:text-8xl lg:text-[110px] ${
-                isVisible
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-16 opacity-0"
-              }`}
-            >
-              Dell Inspiron
-              <br />
-              14 Plus 2-in-1
-            </h1>
+            <div className="overflow-hidden">
+              <h1
+                className={`max-w-3xl text-[40px] font-light leading-[0.95] tracking-[-1.8px] transition-all duration-[1200ms] sm:text-6xl sm:tracking-[-3px] md:text-8xl lg:text-[110px] ${
+                  isVisible
+                    ? "translate-y-0 scale-100 opacity-100"
+                    : "translate-y-20 scale-105 opacity-0"
+                }`}
+              >
+                Dell Inspiron
+                <br />
+                14 Plus 2-in-1
+              </h1>
+            </div>
 
             <p
               className={`mt-6 max-w-xl text-sm leading-6 transition-all delay-300 duration-1000 sm:mt-8 sm:text-lg sm:leading-8 md:text-xl ${
@@ -231,37 +284,53 @@ function Hero() {
 
         <div
           className={`h-12 w-px transition-colors duration-700 ${
-            isLight ? "bg-gray-900/30" : "bg-white/50"
+            isLight
+              ? "bg-gray-900/30"
+              : "bg-white/50"
           }`}
         />
 
         <span
-          className={`h-3 w-3 rounded-full transition-colors duration-700 ${
-            isLight ? "bg-gray-900" : "bg-white"
+          className={`h-3 w-3 rounded-full transition-all duration-700 ${
+            isLight
+              ? "bg-gray-900"
+              : "bg-white"
+          } ${
+            isVisible
+              ? "scale-100 opacity-100"
+              : "scale-0 opacity-0"
           }`}
         />
 
         <span
-          className={`h-2 w-2 rounded-full transition-colors duration-700 ${
-            isLight ? "bg-gray-900/30" : "bg-white/30"
+          className={`h-2 w-2 rounded-full ${
+            isLight
+              ? "bg-gray-900/30"
+              : "bg-white/30"
           }`}
         />
 
         <span
-          className={`h-2 w-2 rounded-full transition-colors duration-700 ${
-            isLight ? "bg-gray-900/30" : "bg-white/30"
+          className={`h-2 w-2 rounded-full ${
+            isLight
+              ? "bg-gray-900/30"
+              : "bg-white/30"
           }`}
         />
 
         <span
-          className={`h-2 w-2 rounded-full transition-colors duration-700 ${
-            isLight ? "bg-gray-900/30" : "bg-white/30"
+          className={`h-2 w-2 rounded-full ${
+            isLight
+              ? "bg-gray-900/30"
+              : "bg-white/30"
           }`}
         />
 
         <span
           className={`mt-2 text-sm transition-colors duration-700 ${
-            isLight ? "text-gray-500" : "text-white/60"
+            isLight
+              ? "text-gray-500"
+              : "text-white/60"
           }`}
         >
           06
@@ -271,7 +340,9 @@ function Hero() {
       <div className="absolute bottom-5 left-1/2 z-20 hidden -translate-x-1/2 text-center sm:block">
         <p
           className={`text-[10px] uppercase tracking-[4px] sm:text-xs sm:tracking-[5px] ${
-            isLight ? "text-gray-500" : "text-white/60"
+            isLight
+              ? "text-gray-500"
+              : "text-white/60"
           }`}
         >
           Scroll

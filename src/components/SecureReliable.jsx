@@ -1,3 +1,4 @@
+import { useState } from "react";
 import useReveal from "./hooks/useReveal";
 import useScrollAnimation from "./hooks/useScrollAnimation";
 import { useTheme } from "../context/ThemeContext";
@@ -5,161 +6,87 @@ import { useTheme } from "../context/ThemeContext";
 function SecureReliable() {
   const [sectionRef, isVisible] = useReveal();
   const [imageRef, progress] = useScrollAnimation();
+  const [showMore, setShowMore] = useState(false);
   const { isLight } = useTheme();
 
-  const videoScale = 1.08 - progress * 0.08;
-  const videoY = (progress - 0.5) * -30;
+  const imageScale = 1.15 - progress * 0.15;
+  const imageY = (progress - 0.5) * -50;
+
+  const imageUrl =
+    "https://images.unsplash.com/photo-1542471562201-7086102e3374?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bGFwdG9wJTIwdmlkZW98ZW58MHx8MHx8fDA%3D";
 
   return (
     <section
       ref={sectionRef}
-      className={`relative min-h-[80svh] overflow-hidden transition-colors duration-700 ${
-        isLight
-          ? "bg-white text-gray-900"
-          : "bg-black text-white"
-      }`}
+      className="relative min-h-screen w-full overflow-hidden bg-black"
     >
       <div
         ref={imageRef}
         className="absolute inset-0 overflow-hidden"
       >
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
+        <img
+          src={imageUrl}
+          alt="Laptop"
           style={{
-            transform: `translate3d(0, ${videoY}px, 0) scale(${videoScale})`,
+            transform: `translate3d(0, ${imageY}px, 0) scale(${imageScale})`,
           }}
-          className={`h-full w-full object-cover object-center will-change-transform transition-all duration-[1200ms] ease-out ${
-            isVisible
-              ? "opacity-100"
-              : "scale-105 opacity-0"
-          }`}
-        >
-          <source
-            src="public/videos/video.mp4"
-            type="video/mp4"
-          />
-        </video>
-
-        <div
-          className={`absolute inset-0 transition-all duration-700 ${
-            isLight
-              ? "bg-white/65 md:bg-gradient-to-r md:from-white/90 md:via-white/55 md:to-white/20"
-              : "bg-black/65 md:bg-gradient-to-r md:from-black/85 md:via-black/50 md:to-black/20"
-          }`}
+          className="h-full w-full object-cover will-change-transform"
         />
       </div>
 
-      <div className="relative z-10 flex min-h-[80svh] items-center px-5 py-20 sm:px-8 sm:py-24 md:px-12 lg:px-20 lg:py-32">
-        <div className="mx-auto w-full max-w-7xl">
-          <div className="max-w-3xl">
-            <p
-              className={`mb-5 text-[10px] uppercase tracking-[3px] transition-all duration-1000 sm:mb-7 sm:text-xs sm:tracking-[5px] ${
-                isLight
-                  ? "text-gray-600"
-                  : "text-white/60"
-              } ${
-                isVisible
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-8 opacity-0"
-              }`}
-            >
-              Designed for confidence
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
+
+      <div className="relative z-10 flex min-h-screen items-center">
+        <div className="w-full px-6 sm:px-8 md:px-12 lg:px-20">
+          <div
+            className={`max-w-3xl transition-all duration-[1200ms] ${
+              isVisible
+                ? "translate-x-0 opacity-100"
+                : "-translate-x-16 opacity-0"
+            }`}
+          >
+            <p className="mb-5 text-xs uppercase tracking-[4px] text-white/60 sm:text-sm">
+              Inspiron 14 Plus 2-in-1
             </p>
 
-            <div className="overflow-hidden">
-              <h2
-                className={`text-5xl font-light leading-[0.92] tracking-[-2px] transition-all duration-[1200ms] sm:text-7xl sm:tracking-[-3px] md:text-8xl lg:text-[100px] ${
-                  isVisible
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-20 opacity-0"
-                }`}
-              >
-                Secure
-                <br />
-                and reliable.
-              </h2>
-            </div>
+            <h2 className="text-5xl font-light leading-[0.95] tracking-[-2px] text-white sm:text-6xl md:text-7xl lg:text-[100px]">
+              Secure and
+              <br />
+              reliable
+            </h2>
 
-            <div
-              className={`mt-7 h-px w-16 origin-left transition-all duration-1000 sm:mt-9 sm:w-24 ${
-                isLight
-                  ? "bg-gray-900/40"
-                  : "bg-white/50"
-              } ${
-                isVisible
-                  ? "scale-x-100 opacity-100"
-                  : "scale-x-0 opacity-0"
-              }`}
-            />
+            <div className="mt-8 h-px w-24 bg-white/40" />
 
-            <p
-              className={`mt-7 max-w-xl text-sm leading-6 transition-all delay-300 duration-1000 sm:mt-9 sm:text-base sm:leading-7 md:text-lg ${
-                isLight
-                  ? "text-gray-700"
-                  : "text-white/70"
-              } ${
-                isVisible
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-8 opacity-0"
-              }`}
-            >
-              Built to keep your everyday work, creativity and entertainment
-              moving with dependable performance and thoughtful design.
+            <p className="mt-8 max-w-xl text-sm leading-7 text-white/75 sm:text-base md:text-lg">
+              Designed to keep your data protected while delivering reliable
+              performance for work, creativity and everyday productivity.
             </p>
 
-            <div
-              className={`mt-8 flex items-center gap-5 transition-all delay-500 duration-1000 sm:mt-10 ${
-                isVisible
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-8 opacity-0"
-              }`}
+            {showMore && (
+              <p className="mt-5 max-w-xl text-sm leading-7 text-white/65 sm:text-base md:text-lg">
+                Experience a premium 2-in-1 design with intelligent features,
+                powerful performance and the flexibility to work from anywhere.
+              </p>
+            )}
+
+            <button
+              onClick={() => setShowMore((prev) => !prev)}
+              className="group mt-9 flex items-center gap-4 rounded-full border border-white/50 px-7 py-3.5 text-sm text-white transition-all duration-500 hover:bg-white hover:text-black"
             >
-              <div
-                className={`flex h-11 w-11 items-center justify-center rounded-full border backdrop-blur-md sm:h-12 sm:w-12 ${
-                  isLight
-                    ? "border-gray-900/20 bg-white/40"
-                    : "border-white/30 bg-black/20"
-                }`}
-              >
-                <span className="text-lg">✓</span>
-              </div>
+              <span>{showMore ? "SHOW LESS" : "KNOW MORE"}</span>
 
-              <div>
-                <p className="text-sm font-medium sm:text-base">
-                  Built for everyday reliability
-                </p>
-
-                <p
-                  className={`mt-1 text-xs sm:text-sm ${
-                    isLight
-                      ? "text-gray-500"
-                      : "text-white/50"
-                  }`}
-                >
-                  Performance you can count on.
-                </p>
-              </div>
-            </div>
+              <span className="text-lg transition-transform duration-300 group-hover:translate-x-2">
+                →
+              </span>
+            </button>
           </div>
         </div>
       </div>
 
-      <div
-        className={`absolute bottom-6 right-5 z-20 rounded-full border px-4 py-2 text-[9px] uppercase tracking-[2px] backdrop-blur-md transition-all duration-700 sm:bottom-8 sm:right-8 sm:text-xs ${
-          isLight
-            ? "border-gray-900/20 bg-white/40 text-gray-700"
-            : "border-white/20 bg-black/20 text-white/60"
-        } ${
-          isVisible
-            ? "translate-y-0 opacity-100"
-            : "translate-y-5 opacity-0"
-        }`}
-      >
-        DELL INSPIRON
+      <div className="absolute bottom-8 left-6 z-20 text-xs uppercase tracking-[4px] text-white/50 sm:left-8 md:left-12 lg:left-20">
+        Dell Inspiron
       </div>
     </section>
   );
