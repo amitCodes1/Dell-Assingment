@@ -46,7 +46,10 @@ function Hero() {
         const y =
           (event.clientY / window.innerHeight - 0.5) * 2;
 
-        setMousePosition({ x, y });
+        setMousePosition({
+          x,
+          y,
+        });
       });
     };
 
@@ -123,7 +126,7 @@ function Hero() {
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           style={
             isDesktop
               ? {
@@ -144,7 +147,7 @@ function Hero() {
           }`}
         >
           <source
-            src="public/videos/video2.mp4"
+            src="/videos/video2.mp4"
             type="video/mp4"
           />
         </video>
