@@ -11,7 +11,7 @@ function TravelHub() {
       className="relative min-h-screen overflow-hidden bg-black text-white"
     >
       <video
-        src="/videos/travel.mp4"
+        src="/videos/travelHub.mp4"
         autoPlay
         muted
         loop
