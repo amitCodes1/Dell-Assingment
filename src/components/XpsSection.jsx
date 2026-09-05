@@ -1,9 +1,14 @@
 import useReveal from "./hooks/useReveal";
+import useScrollAnimation from "./hooks/useScrollAnimation";
 import { useTheme } from "../context/ThemeContext";
 
 function XpsSection() {
   const [sectionRef, isVisible] = useReveal();
+  const [imageRef, progress] = useScrollAnimation();
   const { isLight } = useTheme();
+
+  const imageScale = 1.15 - progress * 0.15;
+  const imageY = (progress - 0.5) * -50;
 
   return (
     <section
@@ -17,10 +22,10 @@ function XpsSection() {
       <div className="mx-auto max-w-7xl">
         <div className="grid items-center gap-12 md:grid-cols-2 md:gap-10 lg:gap-20">
           <div
-            className={`transition-all duration-1000 ${
+            className={`transition-all duration-[1200ms] ${
               isVisible
-                ? "translate-y-0 opacity-100"
-                : "translate-y-12 opacity-0"
+                ? "translate-x-0 opacity-100"
+                : "-translate-x-16 opacity-0"
             }`}
           >
             <p
@@ -33,32 +38,54 @@ function XpsSection() {
               Premium Performance
             </p>
 
-            <h2 className="max-w-xl text-4xl font-light leading-[0.95] tracking-[-1.5px] sm:text-6xl sm:tracking-[-2px] md:text-7xl lg:text-[88px]">
-              Meet the
-              <br />
-              Dell XPS 13.
-            </h2>
+            <div className="overflow-hidden">
+              <h2
+                className={`max-w-xl text-4xl font-light leading-[0.95] tracking-[-1.5px] transition-all duration-[1200ms] sm:text-6xl sm:tracking-[-2px] md:text-7xl lg:text-[88px] ${
+                  isVisible
+                    ? "translate-y-0 scale-100 opacity-100"
+                    : "translate-y-20 scale-105 opacity-0"
+                }`}
+              >
+                Meet the
+                <br />
+                Dell XPS 13.
+              </h2>
+            </div>
 
             <div
-              className={`mt-7 h-px w-16 transition-colors duration-700 sm:mt-9 sm:w-24 ${
+              className={`mt-7 h-px w-16 origin-left transition-all duration-1000 sm:mt-9 sm:w-24 ${
                 isLight
                   ? "bg-gray-900/40"
                   : "bg-white/40"
+              } ${
+                isVisible
+                  ? "scale-x-100"
+                  : "scale-x-0"
               }`}
             />
 
             <p
-              className={`mt-7 max-w-lg text-sm leading-6 transition-colors duration-700 sm:mt-9 sm:text-base sm:leading-7 md:text-lg ${
+              className={`mt-7 max-w-lg text-sm leading-6 transition-all delay-300 duration-1000 sm:mt-9 sm:text-base sm:leading-7 md:text-lg ${
                 isLight
                   ? "text-gray-600"
                   : "text-white/60"
+              } ${
+                isVisible
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-8 opacity-0"
               }`}
             >
               Experience premium design and powerful performance in an
               incredibly compact form factor.
             </p>
 
-            <div className="mt-7 sm:mt-9">
+            <div
+              className={`mt-7 transition-all delay-500 duration-1000 sm:mt-9 ${
+                isVisible
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-8 opacity-0"
+              }`}
+            >
               <p className="text-2xl font-light sm:text-3xl md:text-4xl">
                 Starting from ₹53,364
               </p>
@@ -83,24 +110,28 @@ function XpsSection() {
             >
               <span>KNOW MORE</span>
 
-              <span className="text-lg transition-transform duration-300 group-hover:translate-x-1">
+              <span className="text-lg transition-transform duration-300 group-hover:translate-x-2">
                 →
               </span>
             </button>
           </div>
 
           <div
-            className={`transition-all delay-200 duration-1000 ${
+            ref={imageRef}
+            className={`transition-all delay-200 duration-[1200ms] ${
               isVisible
-                ? "translate-y-0 opacity-100"
-                : "translate-y-16 opacity-0"
+                ? "translate-x-0 opacity-100"
+                : "translate-x-16 opacity-0"
             }`}
           >
             <div className="group relative aspect-[4/3] overflow-hidden rounded-2xl sm:rounded-3xl">
               <img
-                src="https://images.unsplash.com/photo-1720556405438-d67f0f9ecd44?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8eHBzJTIwbGFwdG9wfGVufDB8fDB8fHww"
+                src="https://images.unsplash.com/photo-1720556405438-d67f0f9ecd44?w=1200&auto=format&fit=crop&q=85"
                 alt="Dell XPS 13 laptop"
-                className="h-full w-full object-cover object-center transition-transform duration-1000 ease-out md:group-hover:scale-105"
+                style={{
+                  transform: `translate3d(0, ${imageY}px, 0) scale(${imageScale})`,
+                }}
+                className="h-full w-full object-cover object-center will-change-transform transition-transform duration-100 ease-out group-hover:scale-[1.06]"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10" />

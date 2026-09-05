@@ -1,22 +1,26 @@
 import useReveal from "./hooks/useReveal";
+import useScrollAnimation from "./hooks/useScrollAnimation";
 import { useTheme } from "../context/ThemeContext";
 
 function Sustainability() {
   const [sectionRef, isVisible] = useReveal();
+  const [imageRef, progress] = useScrollAnimation();
   const { isLight } = useTheme();
+
+  const imageScale = 1.12 - progress * 0.12;
+  const imageY = (progress - 0.5) * -45;
 
   return (
     <section
       id="sustainability"
       ref={sectionRef}
       className={`relative overflow-hidden px-5 py-20 transition-colors duration-700 sm:px-8 sm:py-24 md:px-12 md:py-28 lg:px-20 lg:py-32 ${
-        isLight
-          ? "bg-white text-gray-900"
-          : "bg-black text-white"
+        isLight ? "bg-white text-gray-900" : "bg-black text-white"
       }`}
     >
       <div className="mx-auto max-w-7xl">
         <div className="grid items-center gap-12 md:grid-cols-2 md:gap-10 lg:gap-20">
+          
           <div
             className={`order-2 transition-all duration-1000 md:order-1 ${
               isVisible
@@ -26,9 +30,7 @@ function Sustainability() {
           >
             <p
               className={`mb-4 text-[10px] uppercase tracking-[3px] transition-colors duration-700 sm:text-xs sm:tracking-[5px] ${
-                isLight
-                  ? "text-gray-500"
-                  : "text-white/50"
+                isLight ? "text-gray-500" : "text-white/50"
               }`}
             >
               Designed Responsibly
@@ -42,17 +44,13 @@ function Sustainability() {
 
             <div
               className={`mt-7 h-px w-16 transition-colors duration-700 sm:mt-9 sm:w-24 ${
-                isLight
-                  ? "bg-gray-900/40"
-                  : "bg-white/40"
+                isLight ? "bg-gray-900/40" : "bg-white/40"
               }`}
             />
 
             <p
               className={`mt-7 max-w-lg text-sm leading-6 transition-colors duration-700 sm:mt-9 sm:text-base sm:leading-7 md:text-lg ${
-                isLight
-                  ? "text-gray-600"
-                  : "text-white/60"
+                isLight ? "text-gray-600" : "text-white/60"
               }`}
             >
               Designed with sustainability in mind, the Inspiron combines
@@ -62,9 +60,7 @@ function Sustainability() {
 
             <p
               className={`mt-5 max-w-lg text-sm leading-6 transition-colors duration-700 sm:text-base sm:leading-7 ${
-                isLight
-                  ? "text-gray-500"
-                  : "text-white/40"
+                isLight ? "text-gray-500" : "text-white/40"
               }`}
             >
               Every detail is carefully considered to deliver performance
@@ -79,11 +75,17 @@ function Sustainability() {
                 : "translate-y-16 opacity-0"
             }`}
           >
-            <div className="group relative aspect-[4/3] overflow-hidden rounded-2xl sm:rounded-3xl">
+            <div
+              ref={imageRef}
+              className="group relative aspect-[4/3] overflow-hidden rounded-2xl sm:rounded-3xl"
+            >
               <img
-                src="https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmVzdCUyMGRlbGwlMjBsYXB0b3B8ZW58MHx8MHx8fDA%3D"
+                src="https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=1200&auto=format&fit=crop&q=85"
                 alt="Sustainable laptop design"
-                className="h-full w-full object-cover object-center transition-transform duration-1000 ease-out md:group-hover:scale-105"
+                style={{
+                  transform: `translate3d(0, ${imageY}px, 0) scale(${imageScale})`,
+                }}
+                className="h-full w-full object-cover object-center will-change-transform transition-transform duration-100 ease-out md:group-hover:scale-[1.05]"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10" />
@@ -114,9 +116,7 @@ function Sustainability() {
         >
           <p
             className={`max-w-md text-right text-xs leading-5 transition-colors duration-700 sm:text-sm sm:leading-6 ${
-              isLight
-                ? "text-gray-400"
-                : "text-white/35"
+              isLight ? "text-gray-400" : "text-white/35"
             }`}
           >
             Performance and responsibility can move forward together.
@@ -125,9 +125,7 @@ function Sustainability() {
 
         <div
           className={`mt-8 h-px transition-all duration-1000 sm:mt-12 ${
-            isLight
-              ? "bg-gray-900/10"
-              : "bg-white/10"
+            isLight ? "bg-gray-900/10" : "bg-white/10"
           } ${
             isVisible
               ? "w-full opacity-100"
