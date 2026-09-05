@@ -1,56 +1,33 @@
 import { useEffect, useRef, useState } from "react";
 
-function useScrollAnimation() {
+function useReveal() {
   const ref = useRef(null);
-  const [progress, setProgress] = useState(0);
-  const frame = useRef(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const update = () => {
-      const element = ref.current;
+    const element = ref.current;
 
-      if (!element) return;
+    if (!element) return;
 
-      const rect = element.getBoundingClientRect();
-      const height = window.innerHeight;
-
-      const value = Math.min(
-        1,
-        Math.max(
-          0,
-          (height - rect.top) / (height + rect.height)
-        )
-      );
-
-      setProgress(value);
-      frame.current = null;
-    };
-
-    const handleScroll = () => {
-      if (!frame.current) {
-        frame.current = requestAnimationFrame(update);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.unobserve(element);
+        }
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -60px 0px",
       }
-    };
+    );
 
-    update();
+    observer.observe(element);
 
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
-
-    window.addEventListener("resize", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
-
-      if (frame.current) {
-        cancelAnimationFrame(frame.current);
-      }
-    };
+    return () => observer.disconnect();
   }, []);
 
-  return [ref, progress];
+  return [ref, visible];
 }
 
-export default useScrollAnimation;
+export default useReveal;

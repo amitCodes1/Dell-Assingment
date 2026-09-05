@@ -1,23 +1,23 @@
 import { useState } from "react";
 import { useTheme } from "../context/ThemeContext";
+import { FiHome, FiCpu, FiMonitor, FiBox, FiTag } from "react-icons/fi";
+import { BsSun, BsMoon } from "react-icons/bs";
+import { HiMenuAlt3 } from "react-icons/hi";
 
 function Navbar() {
   const { isLight, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const links = [
-    { name: "Home", id: "top" },
-    { name: "AI", id: "ai" },
-    { name: "XPS", id: "xps" },
-    { name: "Accessories", id: "accessories" },
-    { name: "Offers", id: "offers" },
+    { name: "Home", id: "top", icon: <FiHome /> },
+    { name: "AI", id: "ai", icon: <FiCpu /> },
+    { name: "XPS", id: "xps", icon: <FiMonitor /> },
+    { name: "Accessories", id: "accessories", icon: <FiBox /> },
+    { name: "Offers", id: "offers", icon: <FiTag /> },
   ];
 
   const scrollToSection = (id) => {
-    document.getElementById(id)?.scrollIntoView({
-      behavior: "smooth",
-    });
-
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
   };
 
@@ -30,47 +30,49 @@ function Navbar() {
       }`}
     >
       <div className="mx-auto flex h-20 max-w-[1600px] items-center justify-between px-6 sm:px-8 lg:px-12">
+        {/* Logo */}
         <button
           onClick={() => scrollToSection("top")}
-          className="text-2xl font-bold tracking-[-1px]"
+          className="text-2xl font-bold tracking-[-1px] flex items-center gap-1"
         >
           DELL<span className="font-light">.</span>
         </button>
 
+        {/* Desktop Links */}
         <div className="hidden items-center gap-8 md:flex">
           {links.map((link) => (
             <button
               key={link.id}
               onClick={() => scrollToSection(link.id)}
-              className="relative text-sm opacity-70 transition-all duration-300 hover:opacity-100"
+              className="relative flex items-center gap-2 text-sm opacity-70 transition-all duration-300 hover:opacity-100 group"
             >
+              {link.icon}
               {link.name}
+              <span className="absolute bottom-[-6px] left-0 h-[2px] w-0 bg-current transition-all duration-300 group-hover:w-full" />
             </button>
           ))}
         </div>
 
+        {/* Theme + Mobile Menu */}
         <div className="flex items-center gap-4">
           <button
             onClick={toggleTheme}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-current/20 text-sm transition-all duration-300 hover:scale-110"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-current/20 text-lg transition-transform duration-500 hover:rotate-180"
             aria-label="Toggle theme"
           >
-            {isLight ? "☾" : "☀"}
+            {isLight ? <BsMoon /> : <BsSun />}
           </button>
 
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="flex h-10 w-10 items-center justify-center md:hidden"
+            className="flex h-10 w-10 items-center justify-center md:hidden text-2xl"
           >
-            <div className="space-y-1.5">
-              <span className="block h-px w-6 bg-current" />
-              <span className="block h-px w-4 bg-current" />
-              <span className="block h-px w-6 bg-current" />
-            </div>
+            <HiMenuAlt3 />
           </button>
         </div>
       </div>
 
+      {/* Mobile Menu */}
       <div
         className={`overflow-hidden transition-all duration-500 md:hidden ${
           menuOpen ? "max-h-80" : "max-h-0"
@@ -81,8 +83,9 @@ function Navbar() {
             <button
               key={link.id}
               onClick={() => scrollToSection(link.id)}
-              className="text-left text-sm opacity-70"
+              className="flex items-center gap-3 text-left text-sm opacity-70 hover:opacity-100"
             >
+              {link.icon}
               {link.name}
             </button>
           ))}
