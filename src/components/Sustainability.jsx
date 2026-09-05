@@ -1,5 +1,5 @@
-import useReveal from "./hooks/useReveal";
-import useScrollAnimation from "./hooks/useScrollAnimation";
+import useReveal from "../hooks/useReveal";
+import useScrollAnimation from "../hooks/useScrollAnimation";
 import { useTheme } from "../context/ThemeContext";
 
 function Sustainability() {
