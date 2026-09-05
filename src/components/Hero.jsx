@@ -4,29 +4,57 @@ import useReveal from "../hooks/useReveal";
 function Hero() {
   const videoRef = useRef(null);
   const [sectionRef, isVisible] = useReveal();
+
   const [mouse, setMouse] = useState({
     x: 0,
     y: 0,
   });
 
+  const [scrollY, setScrollY] = useState(0);
+
   useEffect(() => {
+    let frame;
+
     const handleMouseMove = (event) => {
-      const x =
-        (event.clientX / window.innerWidth - 0.5) * 12;
+      cancelAnimationFrame(frame);
 
-      const y =
-        (event.clientY / window.innerHeight - 0.5) * 8;
+      frame = requestAnimationFrame(() => {
+        const x =
+          (event.clientX / window.innerWidth - 0.5) * 12;
 
-      setMouse({ x, y });
+        const y =
+          (event.clientY / window.innerHeight - 0.5) * 8;
+
+        setMouse({ x, y });
+      });
     };
 
     window.addEventListener("mousemove", handleMouseMove);
 
     return () => {
-      window.removeEventListener(
-        "mousemove",
-        handleMouseMove
-      );
+      window.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  useEffect(() => {
+    let frame;
+
+    const handleScroll = () => {
+      cancelAnimationFrame(frame);
+
+      frame = requestAnimationFrame(() => {
+        setScrollY(window.scrollY);
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(frame);
     };
   }, []);
 
@@ -35,6 +63,9 @@ function Hero() {
       behavior: "smooth",
     });
   };
+
+  const videoMove = Math.min(scrollY * 0.35, 220);
+  const textMove = Math.min(scrollY * 0.18, 120);
 
   return (
     <section
@@ -50,9 +81,16 @@ function Hero() {
         loop
         playsInline
         preload="auto"
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out"
+        className="absolute inset-0 h-full w-full object-cover will-change-transform"
         style={{
-          transform: `scale(1.05) translate3d(${mouse.x}px, ${mouse.y}px, 0)`,
+          transform: `
+            scale(1.08)
+            translate3d(
+              ${mouse.x}px,
+              ${mouse.y - videoMove}px,
+              0
+            )
+          `,
         }}
       />
 
@@ -61,11 +99,22 @@ function Hero() {
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
 
       <div
-        className={`relative z-10 w-full px-6 pb-16 text-white transition-all duration-[1400ms] sm:px-10 sm:pb-20 lg:px-20 lg:pb-24 ${
+        className={`relative z-10 w-full px-6 pb-16 text-white sm:px-10 sm:pb-20 lg:px-20 lg:pb-24 ${
           isVisible
             ? "translate-y-0 opacity-100"
             : "translate-y-20 opacity-0"
         }`}
+        style={{
+          transform: `
+            translate3d(
+              ${mouse.x * 0.35}px,
+              ${mouse.y * 0.35 - textMove}px,
+              0
+            )
+          `,
+          transition:
+            "transform 0.25s ease-out, opacity 1.4s ease-out",
+        }}
       >
         <p className="mb-5 text-xs uppercase tracking-[5px] text-white/60">
           Dell Inspiron 14 Plus 2-in-1
@@ -87,6 +136,7 @@ function Hero() {
             className="group flex w-fit items-center gap-5 rounded-full border border-white/40 px-6 py-3 text-sm transition-all duration-500 hover:bg-white hover:text-black"
           >
             Explore
+
             <span className="transition-transform duration-300 group-hover:translate-x-2">
               →
             </span>
@@ -94,7 +144,13 @@ function Hero() {
         </div>
       </div>
 
-      <div className="absolute bottom-8 right-6 z-10 hidden text-xs uppercase tracking-[4px] text-white/40 sm:block lg:right-20">
+      <div
+        className="absolute bottom-8 right-6 z-10 hidden text-xs uppercase tracking-[4px] text-white/40 sm:block lg:right-20"
+        style={{
+          transform: `translateY(${-scrollY * 0.15}px)`,
+          transition: "transform 0.15s linear",
+        }}
+      >
         Scroll to explore
       </div>
     </section>

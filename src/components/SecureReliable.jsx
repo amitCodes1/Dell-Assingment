@@ -1,14 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useReveal from "../hooks/useReveal";
 import useScrollAnimation from "../hooks/useScrollAnimation";
 
 function SecureReliable() {
   const [sectionRef, isVisible] = useReveal();
   const [videoRef, progress] = useScrollAnimation();
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const [showMore, setShowMore] = useState(false);
 
+  useEffect(() => {
+    const handleMouseMove = (event) => {
+      const x =
+        (event.clientX / window.innerWidth - 0.5) * 30;
+
+      const y =
+        (event.clientY / window.innerHeight - 0.5) * 20;
+
+      setMouse({ x, y });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
+
   const videoScale = 1.08 - progress * 0.08;
-  const videoY = (progress - 0.5) * -30;
+  const scrollY = (progress - 0.5) * -30;
 
   return (
     <section
@@ -27,9 +46,17 @@ function SecureReliable() {
           loop
           playsInline
           preload="auto"
-          className="h-full w-full object-cover transition-transform duration-300"
+          className="h-full w-full object-cover"
           style={{
-            transform: `translate3d(0, ${videoY}px, 0) scale(${videoScale})`,
+            transform: `
+              translate3d(
+                ${mouse.x * 0.35}px,
+                ${scrollY + mouse.y * 0.35}px,
+                0
+              )
+              scale(${videoScale})
+            `,
+            transition: "transform 0.25s ease-out",
           }}
         />
       </div>
@@ -41,11 +68,22 @@ function SecureReliable() {
       <div className="relative z-10 flex min-h-screen items-center">
         <div className="w-full px-6 sm:px-10 lg:px-20">
           <div
-            className={`max-w-3xl transition-all duration-[1200ms] ${
+            className={`max-w-3xl ${
               isVisible
                 ? "translate-x-0 opacity-100"
                 : "-translate-x-20 opacity-0"
             }`}
+            style={{
+              transform: `
+                translate3d(
+                  ${mouse.x}px,
+                  ${mouse.y}px,
+                  0
+                )
+              `,
+              transition:
+                "transform 0.3s ease-out, opacity 1.2s ease-out",
+            }}
           >
             <p className="mb-5 text-xs uppercase tracking-[4px] text-white/50">
               Inspiron 14 Plus 2-in-1
@@ -64,7 +102,7 @@ function SecureReliable() {
             />
 
             <p
-              className={`mt-8 max-w-xl text-base leading-7 text-white/70 transition-all delay-300 duration-1000 ${
+              className={`mt-8 max-w-xl text-base leading-7 text-white/70 transition-all duration-1000 ${
                 isVisible
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0"
@@ -105,7 +143,13 @@ function SecureReliable() {
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-6 z-10 text-xs uppercase tracking-[4px] text-white/40 sm:left-10 lg:left-20">
+      <div
+        className="absolute bottom-8 left-6 z-10 text-xs uppercase tracking-[4px] text-white/40 sm:left-10 lg:left-20"
+        style={{
+          transform: `translate3d(${mouse.x * 0.5}px, ${mouse.y * 0.5}px, 0)`,
+          transition: "transform 0.3s ease-out",
+        }}
+      >
         Dell Inspiron
       </div>
     </section>
